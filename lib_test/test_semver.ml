@@ -14,6 +14,8 @@ end
 
 let v = parse_version
 
+let q input versions expected = assert_equal (query input (List.map v versions)) expected
+
 let suite = "Semver suite">::: [
   "3 parts">:: test_parse_print (Semver (1, 1, 1)) "1.1.1";
   "long parts">:: test_parse_print (Semver (1243, 32415, 54535)) "1243.32415.54535";
@@ -34,5 +36,18 @@ let suite = "Semver suite">::: [
     gt (v"1.1.1") (v"1.1.0");
     gt (v"1.1.1") (v"1.0.1");
     gt (v"1.1.1") (v"0.1.1");
+  end;
+
+  "query">:: begin fun () ->
+    q "1.1.1" ["1.1.1"] (Some (v"1.1.1"));
+    q "1.1" ["1.1.1"] (Some (v"1.1.1"));
+    q "1" ["1.1.1"] (Some (v"1.1.1"));
+    q "2" ["1.1.1"] None;
+
+    q "1.1.1" ["2.1.1"; "1.1.1"; "1.1.0"; "1.1.2"; "1.2.1"] (Some (v"1.1.1"));
+    q "1.1" ["2.1.1"; "1.1.1"; "1.1.0"; "1.1.2"; "1.2.1"] (Some (v"1.1.2"));
+    q "1" ["2.1.1"; "1.1.1"; "1.1.0"; "1.1.2"; "1.2.1"] (Some (v"1.2.1"));
+    q "2.1" ["2.1.1"; "1.1.1"; "1.1.0"; "1.1.2"; "1.2.1"] (Some (v"2.1.1"));
+    q "0.5" ["2.1.1"; "1.1.1"; "1.1.0"; "1.1.2"; "1.2.1"] None;
   end;
 ]
