@@ -36,7 +36,8 @@ let query_version query versions =
       QueryPatch (maj, min, patch), v' -> Semver (maj, min, patch) == v'
     | QueryMinor (maj, min), Semver (v1, v2, _) -> maj == v1 && min == v2
     | QueryMajor maj, Semver (v1, _, _) -> maj == v1 in
-  last (sort compare_version (filter (compareQuery query) versions))
+  let res = (sort compare_version (filter (compareQuery query) versions)) in
+  if res == [] then None else Some (last res)
 
 let parse_query input =
   try sscanf input "%d.%d.%d" (fun v1 v2 v3 -> QueryPatch (v1, v2, v3))
