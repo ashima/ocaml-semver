@@ -1,0 +1,13 @@
+OASISFormat: 0.3
+Name:        semver
+Version:     0.0.1
+Synopsis:    Semantic Versioning (semver) library
+Authors:     Tikhon Jelvis
+License:     BSD3
+Plugins:     META (0.3)
+
+Library semver
+  Path:       lib
+  BuildTools: ocamlbuild
+  Modules:    Semver
+  
