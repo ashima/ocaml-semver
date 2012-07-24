@@ -10,3 +10,9 @@
 
 *~
 \#*\#
+
+_build
+setup.data
+setup.log
+setup.bin
+a.out
