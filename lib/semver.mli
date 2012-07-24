@@ -1,5 +1,7 @@
-type semver
-type query
+type semver = Semver of int * int * int
+type query = QueryPatch of int * int * int
+           | QueryMinor of int * int
+           | QueryMajor of int
 type version_part = [
   `Major
 | `Minor
