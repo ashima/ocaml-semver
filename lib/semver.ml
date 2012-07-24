@@ -8,6 +8,12 @@ type query = QueryPatch of int * int * int
            | QueryMinor of int * int
            | QueryMajor of int
 
+type version_part = [
+  `Major
+| `Minor
+| `Patch
+]
+
 let compare_version l r = match l, r with
     Semver (l1, l2, l3), Semver (r1, r2, r3) ->
       match compare l1 r1, compare l2 r2, compare l3 r3 with
